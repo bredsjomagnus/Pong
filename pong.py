@@ -58,9 +58,41 @@ class GameObject:
 class Ball(GameObject):
     def drawMe(self,surface):
         pygame.draw.circle(surface,self.color,(round(self.getX()),round(self.getY())),round(self.getWidth()/2.0))
+class StatusContent:
+    textArray = []
+    size = 12
+    def __init__(self, text="",size=12,clor = (255,255,255),coords=(0,0),bold=False,italic=False):
+        self.setText(text)
+        self.size = size
+        self.color = color
+        self.statcoords = coords
+        self.bold = bold
+        self.italic = italic
+        self.fontobj = pygame.front.SysFront("sans serif",self.size,self.bold,self.italic)
+
+    def draw(self,surface):
+        n = 0
+        for text in self.textArray:
+            TextSurface = self.fontobj.render(text, true, self.color)
+            Surface.blit(TextSurface, (self.statcoords[0],self.statcoords[1]+n*self.size))
+            n += 1
+
+            def coords(self):
+                return self.statcoords
+            def setText(self,text):
+                if text.find("\n") > -1:
+                    self.textArray = text.split("\n")
+                    n = 0
+                    for text in self.textArray:
+                        self.textArray[n] = text.strip()
+                        n += 1
+                else:
+                   self.textArray = [text]
 
 class GameRules():
     def __init__(self,ball,walls,paddles,gamestate = 0):
+        self.score1=0
+        self.score2=0
         self.ball = ball
         self.walls = walls
         self.paddles = paddles
@@ -75,6 +107,11 @@ class GameRules():
             if(collideX and collideY):
                 if(n==1 or n==3):    #if walls right or left don´t bounce - do score thingy
                     self.ball.setCoords(((self.walls[1].getX()+self.walls[1].getWidth())/2.0,(self.walls[1].getY()+self.walls[1].getHeight())/2.0))
+                    if(n==1):
+                        self.score1=self.score1+1
+                    else:
+                        self.score2=self.score2+1
+                    
                 else:
                     Ycoord = [wall.getY()+wall.getHeight(),0,wall.getY()-self.ball.getHeight(),0]
                     ball.setCoords((ball.getX(),Ycoord[n]))
