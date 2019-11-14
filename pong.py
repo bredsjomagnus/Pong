@@ -6,6 +6,20 @@ win = pygame.display.set_mode(windowsize)
 pygame.display.set_caption("PONG - the classic game")
 pygame.key.set_repeat(0, 500)
 
+
+# sound mixer initiated
+pygame.mixer.init()
+ 
+# play sound
+def play(soundfile):
+    s = pygame.mixer.Sound(os.path.join('sounds', soundfile))
+    empty_channel = pygame.mixer.find_channel()
+    empty_channel.play(s)
+ 
+# start sound
+play('cheering.ogg')
+
+
 class GameObject:
     def __init__(self,color=(0,0,0),dimensions=(10,10),coords=(0,0), speed=(0.0,0.0)):
         self.color = color
