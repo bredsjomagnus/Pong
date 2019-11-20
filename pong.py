@@ -1,4 +1,9 @@
 import pygame
+import os
+
+# sound mixer initiated
+# pygame.mixer.init()
+pygame.mixer.init(22100, -16, 2, 256)
 
 pygame.init()
 windowsize = (400,230)
@@ -7,17 +12,20 @@ pygame.display.set_caption("PONG - the classic game")
 pygame.key.set_repeat(0, 500)
 
 
-# sound mixer initiated
-pygame.mixer.init()
- 
+
+
+
+bounce = pygame.mixer.Sound(os.path.join('sounds', 'bounce_3.ogg'))
+
 # play sound
-def play(soundfile):
-    s = pygame.mixer.Sound(os.path.join('sounds', soundfile))
-    empty_channel = pygame.mixer.find_channel()
-    empty_channel.play(s)
+def play_bounce():
+    
+    # empty_channel = pygame.mixer.find_channel()
+    # empty_channel.play(s)
+    pygame.mixer.Sound.play(bounce)
  
-# start sound
-play('cheering.ogg')
+# # start sound
+# play('cheering.ogg')
 
 
 class GameObject:
@@ -119,6 +127,7 @@ class GameRules():
         for wall in self.walls:
             collideX, collideY = self.ball.collides(wall)
             if(collideX and collideY):
+                # play('bounce_3.ogg')
                 if(n==1 or n==3):    #if walls right or left don´t bounce - do score thingy
                     self.ball.setCoords(((self.walls[1].getX()+self.walls[1].getWidth())/2.0,(self.walls[1].getY()+self.walls[1].getHeight())/2.0))
                     if(n==1):
@@ -135,6 +144,7 @@ class GameRules():
         for paddle in self.paddles:
             collideX, collideY = self.ball.collides(paddle)
             if(collideX and collideY):
+                play_bounce()
                 self.ball.setSpeed(((-1)*self.ball.getSpeedX(),self.ball.getSpeedY()))
                 if(n==0):
                     ball.setCoords((paddle.getX()+paddle.getWidth(),self.ball.getY()))
