@@ -18,11 +18,15 @@ pygame.key.set_repeat(0, 500)
 bounce = pygame.mixer.Sound(os.path.join('sounds', 'bounce_3.ogg'))
 
 # play sound
-def play_bounce():
+def play_bounce(direction):
     
-    # empty_channel = pygame.mixer.find_channel()
-    # empty_channel.play(s)
-    pygame.mixer.Sound.play(bounce)
+    empty_channel = pygame.mixer.find_channel()
+    if direction == 'left':
+        empty_channel.set_volume(1.0, 0.0)
+    else:
+        empty_channel.set_volume(0.0, 1.0)
+    empty_channel.play(bounce)
+    # pygame.mixer.Sound.play(bounce)
  
 # # start sound
 # play('cheering.ogg')
@@ -144,11 +148,12 @@ class GameRules():
         for paddle in self.paddles:
             collideX, collideY = self.ball.collides(paddle)
             if(collideX and collideY):
-                play_bounce()
                 self.ball.setSpeed(((-1)*self.ball.getSpeedX(),self.ball.getSpeedY()))
                 if(n==0):
+                    play_bounce('left')
                     ball.setCoords((paddle.getX()+paddle.getWidth(),self.ball.getY()))
                 else:
+                    play_bounce('right')
                     ball.setCoords((paddle.getX()-self.ball.getWidth(),self.ball.getY()))
             n += 1
                 
