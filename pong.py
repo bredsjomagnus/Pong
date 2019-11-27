@@ -1,9 +1,13 @@
 import pygame
 
 pygame.init()
+
+background_image = pygame.image.load("images/game-over.jpg")
+
 windowsize = (400,230)
 win = pygame.display.set_mode(windowsize)
 pygame.display.set_caption("PONG - the classic game")
+win.blit(background_image, [0, 0])
 pygame.key.set_repeat(0, 500)
 
 class GameObject:
@@ -165,6 +169,7 @@ rules = GameRules(ball,walls,paddles,1)
 
 run = True
 while run:
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -177,7 +182,8 @@ while run:
     rules.bounce()
     ball.move()
 
-    win.fill((0,0,0))
+    # win.fill((0,0,0))
+    win.blit(background_image, [0, 0])
     rules.draw(win)
     pygame.display.update()
 
