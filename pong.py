@@ -1,10 +1,21 @@
 import pygame
-
+import os
+pygame.mixer.init(22100, -16, 2, 256)
 pygame.init()
 windowsize = (400,230)
 win = pygame.display.set_mode(windowsize)
 pygame.display.set_caption("PONG - the classic game")
 pygame.key.set_repeat(0, 500)
+bounce = pygame.mixer.Sound(os.path.join('sounds','pool.ogg'))
+
+
+def play_bounce(direction):
+    empty_channel = pygame.mixer.find_channel()
+    if direction == 'left':
+        empty_channel.set_volume(1.0,0.0)
+    else:
+        empty_channel.set_volume(0.0,1.0)
+    empty_channel.play(bounce)
 
 class GameObject:
     def __init__(self,color=(0,0,0),dimensions=(10,10),coords=(0,0), speed=(0.0,0.0)):
@@ -123,8 +134,10 @@ class GameRules():
             if(collideX and collideY):
                 self.ball.setSpeed(((-1)*self.ball.getSpeedX(),self.ball.getSpeedY()))
                 if(n==0):
+                    play_bounce('left')
                     ball.setCoords((paddle.getX()+paddle.getWidth(),self.ball.getY()))
                 else:
+                    play_bounce('right')
                     ball.setCoords((paddle.getX()-self.ball.getWidth(),self.ball.getY()))
             n += 1
                 
