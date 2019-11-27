@@ -1,6 +1,9 @@
 import pygame
 
 pygame.init()
+
+background_image = pygame.image.load("images/bakgrund-VS.jpg")
+
 windowsize = (400,230)
 win = pygame.display.set_mode(windowsize)
 pygame.display.set_caption("PONG - the classic game")
@@ -177,7 +180,8 @@ while run:
     rules.bounce()
     ball.move()
 
-    win.fill((0,0,0))
+    # win.fill((0,0,0))
+    win.blit(background_image, [0,0])
     rules.draw(win)
     pygame.display.update()
 
