@@ -6,7 +6,7 @@ pygame.init()
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
 
 # windowsize = (pygame.display.Info().current_w-100, pygame.display.Info().current_h-100)
-windowsize = (1000,636)
+windowsize = (640,480)
 # print(pygame.display.Info())
 
 win = pygame.display.set_mode(windowsize)
@@ -222,15 +222,15 @@ class GameRules():
             obj.drawMe(surface)
         
         
-ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(1.75,1.75))
+ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(3.75,3.75))
 walls = []
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],1),coords=(0,0)))   #top, right, bottom, left
 walls.append(GameObject(color=(255,255,0),dimensions=(1,windowsize[1]),coords=(windowsize[0]-1,0)))
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],1),coords=(0,windowsize[1]-1)))
 walls.append(GameObject(color=(255,255,0),dimensions=(1,windowsize[1]),coords=(0,0)))
 paddles = []
-paddles.append(GameObject(color=(0,0,255),dimensions=(10,40),coords=(0,windowsize[1]/2.0),speed=(0.0,1.57)))  #player1, player2
-paddles.append(GameObject(color=(0,255,0),dimensions=(10,40),coords=(windowsize[0]-10,windowsize[1]/2.0),speed=(0.0,1.57)))
+paddles.append(GameObject(color=(0,0,255),dimensions=(10,40),coords=(0,windowsize[1]/2.0),speed=(0.0,3.57)))  #player1, player2
+paddles.append(GameObject(color=(0,255,0),dimensions=(10,40),coords=(windowsize[0]-10,windowsize[1]/2.0),speed=(0.0,3.57)))
 rules = GameRules(ball,walls,paddles,1)
 
 theStatus = Status((0,0),(1000,636),(0,0,0))
