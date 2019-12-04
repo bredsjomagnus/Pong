@@ -12,10 +12,18 @@ windowsize = (1000,636)
 win = pygame.display.set_mode(windowsize)
 pygame.display.set_caption("PONG - the classic game")
 pygame.key.set_repeat(0, 500)
+
+
 bounce = pygame.mixer.Sound(os.path.join('sounds','pool.ogg'))
+
+wall_bounce = pygame.mixer.Sound(os.path.join('sounds','wall_bounce.ogg'))
 
 music_channel = pygame.mixer.find_channel()
 music_channel.play(pygame.mixer.Sound(os.path.join('sounds/music', 'PongSong.ogg')))
+
+def play_wall_bounce():
+    empty_channel = pygame.mixer.find_channel()
+    empty_channel.play(wall_bounce)
 
 def play_bounce(direction):
     empty_channel = pygame.mixer.find_channel()
@@ -169,6 +177,7 @@ class GameRules():
                         self.score2=self.score2+1
                         
                 else:
+                    play_wall_bounce()
                     Ycoord = [wall.getY()+wall.getHeight(),0,wall.getY()-self.ball.getHeight(),0]
                     ball.setCoords((ball.getX(),Ycoord[n]))
                     self.ball.setSpeed((self.ball.getSpeedX(),(-1)*self.ball.getSpeedY()))
