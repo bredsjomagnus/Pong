@@ -96,7 +96,7 @@ class Status:
     statuscoords = (0,0)
     dimensions = (0,0)
     bgcolor = (0,0,0)
-    me = pygame.image.load(os.path.join('images/backgrounds', 'field_black_1000x636.png'))
+    me = pygame.image.load(os.path.join('images/backgrounds', 'field_black_640x480.png'))
 
     def __init__(self, statuscoords=(300,0), dimensions=(100,200), bgcolor=(0,0,0)):
         self.statuscoords = statuscoords
@@ -239,8 +239,8 @@ print("score1:")
 print(rules.getScore()[0])
 
 theStatusContent = {
-    "score1":   StatusContent(text=rules.getScore()[0], size=78, coords=(250,300)),
-    "score2":   StatusContent(text=rules.getScore()[1], size=78, coords=(750,300)),
+    "score1":   StatusContent(text=rules.getScore()[0], size=78, coords=(160,240)),
+    "score2":   StatusContent(text=rules.getScore()[1], size=78, coords=(480,240)),
 }
 
 run = True
