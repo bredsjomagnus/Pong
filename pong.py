@@ -9,7 +9,7 @@ pygame.init()
 windowsize = (640,480)
 # print(pygame.display.Info())
 
-win = pygame.display.set_mode(windowsize)
+win = pygame.display.set_mode(windowsize, pygame.FULLSCREEN)
 pygame.display.set_caption("PONG - the classic game")
 pygame.key.set_repeat(0, 500)
 
@@ -23,7 +23,7 @@ music_channel.play(pygame.mixer.Sound(os.path.join('sounds/music', 'PongSong.ogg
 
 def play_wall_bounce():
     empty_channel = pygame.mixer.find_channel()
-    empty_channel.set_volume(0.5, 0.5)
+    # empty_channel.set_volume(0.5, 0.5)
     empty_channel.play(wall_bounce)
 
 def play_bounce(direction):
