@@ -86,8 +86,8 @@ class Status:
         self.dimensions = dimensions
         self.bgcolor = bgcolor
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, self.bgcolor, [self.coords[0],self.coords[1],self.dimensions[0],self.dimensions[1]])
+    # def draw(self, surface):
+    #     pygame.draw.rect(surface, self.bgcolor, [self.coords[0],self.coords[1],self.dimensions[0],self.dimensions[1]])
 
     def draw(self,surface):
         surface.blit(self.me, (self.statuscoords[0],self.statuscoords[1]))
