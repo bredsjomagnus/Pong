@@ -1,6 +1,6 @@
 import pygame
 import os
-pygame.mixer.init(22100, -16, 2, 1024)
+pygame.mixer.init(16000, -16, 2, 2048)
 pygame.init()
 
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
