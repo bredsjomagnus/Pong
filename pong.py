@@ -1,6 +1,6 @@
 import pygame
 import os
-pygame.mixer.init(22100, -16, 2, 256)
+pygame.mixer.init(22100, -16, 2, 1024)
 pygame.init()
 
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
@@ -18,8 +18,10 @@ bounce = pygame.mixer.Sound(os.path.join('sounds','pool.ogg'))
 
 wall_bounce = pygame.mixer.Sound(os.path.join('sounds','wall_bounce.ogg'))
 
-music_channel = pygame.mixer.find_channel()
-music_channel.play(pygame.mixer.Sound(os.path.join('sounds/music', 'PongSong.ogg')))
+# music_channel = pygame.mixer.find_channel()
+# music_channel.play(pygame.mixer.Sound(os.path.join('sounds/music', 'PongSong.ogg')))
+pygame.mixer.music.load(os.path.join('sounds/music', 'PongSong.ogg'))
+pygame.mixer.music.play()
 
 def play_wall_bounce():
     empty_channel = pygame.mixer.find_channel()
