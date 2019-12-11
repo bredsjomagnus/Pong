@@ -223,15 +223,15 @@ class GameRules():
             obj.drawMe(surface)
         
         
-ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(5.75,5.75))
+ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(2.75,2.75))
 walls = []
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],1),coords=(0,0)))   #top, right, bottom, left
 walls.append(GameObject(color=(255,255,0),dimensions=(1,windowsize[1]),coords=(windowsize[0]-1,0)))
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],1),coords=(0,windowsize[1]-1)))
 walls.append(GameObject(color=(255,255,0),dimensions=(1,windowsize[1]),coords=(0,0)))
 paddles = []
-paddles.append(GameObject(color=(0,0,255),dimensions=(10,40),coords=(0,windowsize[1]/2.0),speed=(0.0,5.57)))  #player1, player2
-paddles.append(GameObject(color=(0,255,0),dimensions=(10,40),coords=(windowsize[0]-10,windowsize[1]/2.0),speed=(0.0,5.57)))
+paddles.append(GameObject(color=(0,0,255),dimensions=(10,80),coords=(0,windowsize[1]/2.0),speed=(0.0,2.57)))  #player1, player2
+paddles.append(GameObject(color=(0,255,0),dimensions=(10,80),coords=(windowsize[0]-10,windowsize[1]/2.0),speed=(0.0,2.57)))
 rules = GameRules(ball,walls,paddles,1)
 
 theStatus = Status((0,0),(1000,636),(0,0,0))
