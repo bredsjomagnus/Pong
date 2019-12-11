@@ -6,7 +6,7 @@ pygame.init()
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
 
 # windowsize = (pygame.display.Info().current_w-100, pygame.display.Info().current_h-100)
-windowsize = (640,480)
+windowsize = (1320,740)
 # print(pygame.display.Info())
 
 win = pygame.display.set_mode(windowsize, pygame.FULLSCREEN)
@@ -97,7 +97,7 @@ class Status:
     statuscoords = (0,0)
     dimensions = (0,0)
     bgcolor = (0,0,0)
-    me = pygame.image.load(os.path.join('images/backgrounds', 'field_black_640x480.png'))
+    me = pygame.image.load(os.path.join('images/backgrounds', 'field_black_1320x740.png'))
 
     def __init__(self, statuscoords=(300,0), dimensions=(100,200), bgcolor=(0,0,0)):
         self.statuscoords = statuscoords
@@ -223,25 +223,25 @@ class GameRules():
             obj.drawMe(surface)
         
         
-ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(2.75,2.75))
+ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(10,10))
 walls = []
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],1),coords=(0,0)))   #top, right, bottom, left
 walls.append(GameObject(color=(255,255,0),dimensions=(1,windowsize[1]),coords=(windowsize[0]-1,0)))
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],1),coords=(0,windowsize[1]-1)))
 walls.append(GameObject(color=(255,255,0),dimensions=(1,windowsize[1]),coords=(0,0)))
 paddles = []
-paddles.append(GameObject(color=(0,0,255),dimensions=(10,80),coords=(0,windowsize[1]/2.0),speed=(0.0,2.57)))  #player1, player2
-paddles.append(GameObject(color=(0,255,0),dimensions=(10,80),coords=(windowsize[0]-10,windowsize[1]/2.0),speed=(0.0,2.57)))
+paddles.append(GameObject(color=(0,0,255),dimensions=(15,80),coords=(5,windowsize[1]/2.0),speed=(0.0,5.57)))  #player1, player2
+paddles.append(GameObject(color=(0,255,0),dimensions=(15,80),coords=(windowsize[0]-15,windowsize[1]/2.0),speed=(0.0,5.57)))
 rules = GameRules(ball,walls,paddles,1)
 
-theStatus = Status((0,0),(1000,636),(0,0,0))
+theStatus = Status((10,10),(1300,720),(0,0,0))
 
 print("score1:")
 print(rules.getScore()[0])
 
 theStatusContent = {
-    "score1":   StatusContent(text=rules.getScore()[0], size=78, coords=(160,240)),
-    "score2":   StatusContent(text=rules.getScore()[1], size=78, coords=(480,240)),
+    "score1":   StatusContent(text=rules.getScore()[0], size=78, coords=(330,370)),
+    "score2":   StatusContent(text=rules.getScore()[1], size=78, coords=(990,370)),
 }
 
 run = True
