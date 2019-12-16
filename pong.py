@@ -260,16 +260,17 @@ class GameRules():
                 angle = math.acos(adjacent)
                 self.ball.setAngle(angle)
 
-                self.ball.addBounce()
+                if paddle.getHeight() > 10:
 
-                if self.ball.getBounces() == 3:
-                    paddle.setDimensions((10,paddle.getHeight()*0.85))
-                if self.ball.getBounces() == 4:
-                    paddle.setDimensions((10, paddle.getHeight()*0.85))
-                    self.ball.resetBounces()
+                    self.ball.addBounce()
+
+                    if self.ball.getBounces() == 3:
+                        paddle.setDimensions((10,paddle.getHeight()*0.75))
+                    if self.ball.getBounces() == 4:
+                        paddle.setDimensions((10, paddle.getHeight()*0.75))
+                        self.ball.resetBounces()
 
                 
-
                 if(n==0):
                     play_bounce('left')
                     self.ball.setCoords((paddle.getX()+paddle.getWidth(),self.ball.getY()))
