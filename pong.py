@@ -7,6 +7,7 @@ pygame.init()
 
 
 PADDLE_WIDTH = 80
+BOUNCES = 0
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
 
 # windowsize = (pygame.display.Info().current_w-100, pygame.display.Info().current_h-100)
@@ -68,6 +69,9 @@ class GameObject:
 
     def setCoords(self,coords):
         self.coords = coords
+    
+    def setDimensions(self, dimensions):
+        self.dimensions = dimensions
 
     def getWidth(self):
         return self.dimensions[0]
@@ -94,9 +98,21 @@ class GameObject:
         return collideX, collideY
 
 class Ball(GameObject):
+
+    bounces = 0
+
     def drawMe(self,surface):
         pygame.draw.circle(surface,self.color,(round(self.getX()),round(self.getY())),round(self.getWidth()/2.0))
 
+    def addBounce(self, add=1):
+        self.bounces = self.bounces + add
+    
+    def getBounces(self):
+        return self.bounces
+    
+    def resetBounces(self):
+        self.bounces = 0
+    
     def randomAngle(self, wall=None):
         angle = random.uniform(0.17,math.pi-0.17) #random vinkel mellan 10-170 (omvandlat till radianer)
         if(wall == 1):  #förskjut vinkeln så att tekningen går mot angiven vägg; höger
@@ -208,9 +224,14 @@ class GameRules():
                     if(n==1):
                         self.score1=self.score1+1
                         self.faceOff(3)
+                        self.ball.resetBounces()
+                        for paddle in self.paddles:
+                            paddle.setDimensions((10, PADDLE_WIDTH))
                     else:
                         self.score2=self.score2+1
                         self.faceOff(1)
+                        for paddle in self.paddles:
+                            paddle.setDimensions((10, PADDLE_WIDTH))
                 else:
                     play_wall_bounce()
                     Ycoord = [wall.getY()+wall.getHeight(),0,wall.getY()-self.ball.getHeight(),0]
@@ -228,7 +249,7 @@ class GameRules():
                 
                 # Närliggande katet; bollens y-värde - paddelns y-värde i centrum som i nuläget ligger mellan -40 <= x <= 40
                 # Delar detta med halva paddelns längd, i nuläget 40. Detta för att anpassa till enhetscirkeln.
-                adjacent = float((ball_coords[1] - (paddle_coords[1]+PADDLE_WIDTH/2))/(PADDLE_WIDTH/2))
+                adjacent = float((ball_coords[1] - (paddle_coords[1]+paddle.getHeight()/2))/(paddle.getHeight()/2))
 
                 # Ser till att inte få allt för extrema värden på närliggande katet.
                 if adjacent > 0.9:
@@ -239,6 +260,17 @@ class GameRules():
                 # Är hypotenusan 1 ges vikeln av arccos(närliggande katet)
                 angle = math.acos(adjacent)
                 self.ball.setAngle(angle)
+
+                self.ball.addBounce()
+                print(self.ball.getBounces())
+
+                if self.ball.getBounces() == 3:
+                    paddle.setDimensions((10,paddle.getHeight()*0.9))
+                if self.ball.getBounces() == 4:
+                    paddle.setDimensions((10, paddle.getHeight()*0.9))
+                    self.ball.resetBounces()
+
+                
 
                 if(n==0):
                     play_bounce('left')
@@ -260,6 +292,9 @@ class GameRules():
         self.score2 = 0
         self.paddles[0].setCoords((5,windowsize[1]/2.0))  #player1, player2
         self.paddles[1].setCoords((windowsize[0]-15,windowsize[1]/2.0))
+        self.ball.resetBounces()
+        self.paddles[0].setDimensions((10, PADDLE_WIDTH))
+        self.paddles[1].setDimensions((10, PADDLE_WIDTH))
 
     def getScore(self):
         return str(self.score1), str(self.score2)
