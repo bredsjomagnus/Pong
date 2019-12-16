@@ -103,11 +103,25 @@ class Ball(GameObject):
             angle = angle - math.pi/2.0
         else:           #förskjut vinkeln så att tekningen går mot angiven vägg; vänster
             angle = angle + math.pi/2.0
-        self.setAngle(angle)
+        self.setStartAngle(angle)
 
     def setAngle(self,angle):
-        # newSpeed = (-1*math.sin(angle) *self.getSpeedX(), (1+math.cos(angle))*self.getSpeedY())
-        # self.setSpeed(newSpeed)
+        """
+        Tar emot vinkeln som räknas fram utefter var på paddeln bollen träffar paddeln. Träff längre ifrån
+        centrum på paddeln ger högre vinkel.
+        """
+        # Krävs för att bollen skall studsar fram och tillbaka.
+        # Gör att hastigheten i x-led växlar mellan positivt och negativt värde.
+        angleaddon = math.pi
+        if self.getSpeedX() < 0:
+            angleaddon = 0
+        
+        # y är knutet till cos då cos-värdet är högre vid kantträff.
+        newSpeed = (self.getSpeed()*math.sin(angle+angleaddon),self.getSpeed()*math.cos(angle))
+        self.setSpeed(newSpeed)
+        
+
+    def setStartAngle(self, angle):
         newSpeed = (self.getSpeed()*math.cos(angle),self.getSpeed()*math.sin(angle))
         self.setSpeed(newSpeed)
 
@@ -210,21 +224,22 @@ class GameRules():
                 # self.ball.setSpeed(((-1)*self.ball.getSpeedX(),self.ball.getSpeedY()))
                 ball_coords = (self.ball.getX(), self.ball.getY())
                 paddle_coords = (paddle.getX(), paddle.getY())
-                print("ball_coords:", end="")
-                print(ball_coords)
-                print("paddle_coords: ", end="")
-                print(paddle_coords)
-                print("(ball_coords[1] - paddle_coords[1])/(PADDLE_WIDTH/2)*1 = %s" %
-                      ((ball_coords[1] - (paddle_coords[1]+PADDLE_WIDTH/2))/(PADDLE_WIDTH/2)*1))
                 
-                avalue = (ball_coords[1] - paddle_coords[1])/(PADDLE_WIDTH/2)*1
-                if avalue > 0.9:
-                    avalue = 0.9
-                elif avalue < -0.9:
-                    avalue = -0.9
-                angle = math.acos(avalue)
-                print("angle %s" % (angle))
+                
+                # Närliggande katet; bollens y-värde - paddelns y-värde i centrum som i nuläget ligger mellan -40 <= x <= 40
+                # Delar detta med halva paddelns längd, i nuläget 40. Detta för att anpassa till enhetscirkeln.
+                adjacent = float((ball_coords[1] - (paddle_coords[1]+PADDLE_WIDTH/2))/(PADDLE_WIDTH/2))
+
+                # Ser till att inte få allt för extrema värden på närliggande katet.
+                if adjacent > 0.9:
+                    adjacent = 0.9
+                elif adjacent < -0.9:
+                    adjacent = -0.9
+                
+                # Är hypotenusan 1 ges vikeln av arccos(närliggande katet)
+                angle = math.acos(adjacent)
                 self.ball.setAngle(angle)
+
                 if(n==0):
                     play_bounce('left')
                     self.ball.setCoords((paddle.getX()+paddle.getWidth(),self.ball.getY()))
