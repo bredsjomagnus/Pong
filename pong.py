@@ -7,7 +7,6 @@ pygame.init()
 
 
 PADDLE_WIDTH = 80
-BOUNCES = 0
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
 
 # windowsize = (pygame.display.Info().current_w-100, pygame.display.Info().current_h-100)
@@ -262,12 +261,11 @@ class GameRules():
                 self.ball.setAngle(angle)
 
                 self.ball.addBounce()
-                print(self.ball.getBounces())
 
                 if self.ball.getBounces() == 3:
-                    paddle.setDimensions((10,paddle.getHeight()*0.9))
+                    paddle.setDimensions((10,paddle.getHeight()*0.85))
                 if self.ball.getBounces() == 4:
-                    paddle.setDimensions((10, paddle.getHeight()*0.9))
+                    paddle.setDimensions((10, paddle.getHeight()*0.85))
                     self.ball.resetBounces()
 
                 
