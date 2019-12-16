@@ -125,7 +125,7 @@ class Ball(GameObject):
         Tar emot vinkeln som räknas fram utefter var på paddeln bollen träffar paddeln. Träff längre ifrån
         centrum på paddeln ger högre vinkel.
         """
-        # Krävs för att bollen skall studsar fram och tillbaka.
+        # Krävs för att bollen skall studsa fram och tillbaka.
         # Gör att hastigheten i x-led växlar mellan positivt och negativt värde.
         angleaddon = math.pi
         if self.getSpeedX() < 0:
@@ -224,13 +224,14 @@ class GameRules():
                         self.score1=self.score1+1
                         self.faceOff(3)
                         self.ball.resetBounces()
-                        for paddle in self.paddles:
-                            paddle.setDimensions((10, PADDLE_WIDTH))
+                        self.paddles[0].setDimensions((10, PADDLE_WIDTH))
+                        self.paddles[1].setDimensions((10, PADDLE_WIDTH))
                     else:
                         self.score2=self.score2+1
                         self.faceOff(1)
-                        for paddle in self.paddles:
-                            paddle.setDimensions((10, PADDLE_WIDTH))
+                        self.ball.resetBounces()
+                        self.paddles[0].setDimensions((10, PADDLE_WIDTH))
+                        self.paddles[1].setDimensions((10, PADDLE_WIDTH))
                 else:
                     play_wall_bounce()
                     Ycoord = [wall.getY()+wall.getHeight(),0,wall.getY()-self.ball.getHeight(),0]
