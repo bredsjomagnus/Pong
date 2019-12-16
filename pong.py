@@ -5,6 +5,8 @@ import random
 pygame.mixer.init(16000, -16, 2, 2048)
 pygame.init()
 
+
+PADDLE_WIDTH = 80
 # background_image = pygame.image.load("images/backgrounds/bakgrund-VS.jpg")
 
 # windowsize = (pygame.display.Info().current_w-100, pygame.display.Info().current_h-100)
@@ -104,6 +106,8 @@ class Ball(GameObject):
         self.setAngle(angle)
 
     def setAngle(self,angle):
+        # newSpeed = (-1*math.sin(angle) *self.getSpeedX(), (1+math.cos(angle))*self.getSpeedY())
+        # self.setSpeed(newSpeed)
         newSpeed = (self.getSpeed()*math.cos(angle),self.getSpeed()*math.sin(angle))
         self.setSpeed(newSpeed)
 
@@ -203,7 +207,24 @@ class GameRules():
         for paddle in self.paddles:
             collideX, collideY = self.ball.collides(paddle)
             if(collideX and collideY):
-                self.ball.setSpeed(((-1)*self.ball.getSpeedX(),self.ball.getSpeedY()))
+                # self.ball.setSpeed(((-1)*self.ball.getSpeedX(),self.ball.getSpeedY()))
+                ball_coords = (self.ball.getX(), self.ball.getY())
+                paddle_coords = (paddle.getX(), paddle.getY())
+                print("ball_coords:", end="")
+                print(ball_coords)
+                print("paddle_coords: ", end="")
+                print(paddle_coords)
+                print("(ball_coords[1] - paddle_coords[1])/(PADDLE_WIDTH/2)*1 = %s" %
+                      ((ball_coords[1] - (paddle_coords[1]+PADDLE_WIDTH/2))/(PADDLE_WIDTH/2)*1))
+                
+                avalue = (ball_coords[1] - paddle_coords[1])/(PADDLE_WIDTH/2)*1
+                if avalue > 0.9:
+                    avalue = 0.9
+                elif avalue < -0.9:
+                    avalue = -0.9
+                angle = math.acos(avalue)
+                print("angle %s" % (angle))
+                self.ball.setAngle(angle)
                 if(n==0):
                     play_bounce('left')
                     self.ball.setCoords((paddle.getX()+paddle.getWidth(),self.ball.getY()))
@@ -259,8 +280,8 @@ walls.append(GameObject(color=(255,255,0),dimensions=(100,windowsize[1]),coords=
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],100),coords=(0,windowsize[1]-1)))
 walls.append(GameObject(color=(255,255,0),dimensions=(100,windowsize[1]),coords=(-99,0)))
 paddles = []
-paddles.append(GameObject(color=(0,0,255),dimensions=(15,80),coords=(5,windowsize[1]/2.0),speed=(0.0,5.57)))  #player1, player2
-paddles.append(GameObject(color=(0,255,0),dimensions=(15,80),coords=(windowsize[0]-15,windowsize[1]/2.0),speed=(0.0,5.57)))
+paddles.append(GameObject(color=(0,0,255),dimensions=(15,PADDLE_WIDTH),coords=(5,windowsize[1]/2.0),speed=(0.0,5.57)))  #player1, player2
+paddles.append(GameObject(color=(0,255,0),dimensions=(15,PADDLE_WIDTH),coords=(windowsize[0]-15,windowsize[1]/2.0),speed=(0.0,5.57)))
 rules = GameRules(ball,walls,paddles,0)
 rules.faceOff()
 
