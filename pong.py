@@ -42,11 +42,12 @@ def play_bounce(direction):
         empty_channel.play(bounce)
 
 class GameObject:
-    def __init__(self,color=(0,0,0),dimensions=(10,10),coords=(0,0), speed=(0.0,0.0)):
+    def __init__(self,color=(0,0,0),dimensions=(10,10),coords=(0,0), speed=(0.0,0.0), image=None):
         self.color = color
         self.dimensions = dimensions
         self.coords = coords
         self.speed = speed
+        self.image = image
 
     def getSpeedX(self):
         return self.speed[0]
@@ -79,7 +80,11 @@ class GameObject:
         return self.dimensions[1]
 
     def drawMe(self,surface):
-        pygame.draw.rect(surface, self.color, pygame.Rect(round(self.getX()), round(self.getY()), self.getWidth(), self.getHeight()))
+        if(self.image != None):
+            img = pygame.image.load(os.path.join('images/backgrounds', self.image))
+            surface.blit(img, (round(self.getX()), round(self.getY())))
+        else:
+            pygame.draw.rect(surface, self.color, pygame.Rect(round(self.getX()), round(self.getY()), self.getWidth(), self.getHeight()))
 
     def move(self):
         coords = list(self.coords)
@@ -101,7 +106,11 @@ class Ball(GameObject):
     bounces = 0
 
     def drawMe(self,surface):
-        pygame.draw.circle(surface,self.color,(round(self.getX()),round(self.getY())),round(self.getWidth()/2.0))
+        if(self.image != None):
+            img = pygame.image.load(os.path.join('images/backgrounds', self.image))
+            surface.blit(img, (round(self.getX())-round(self.getWidth()/2.0), round(self.getY())-round(self.getWidth()/2.0)))
+        else:
+            pygame.draw.circle(surface,self.color,(round(self.getX()),round(self.getY())),round(self.getWidth()/2.0))
 
     def addBounce(self, add=1):
         self.bounces = self.bounces + add
@@ -323,7 +332,7 @@ class GameRules():
             obj.drawMe(surface)
 
 
-ball = Ball(color=(255,0,0),dimensions=(10,10),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(5,5))
+ball = Ball(color=(255,0,0),dimensions=(20,20),coords=(windowsize[0]/2.0,windowsize[1]/2.0),speed=(5,5), image="ball.png")
 walls = []
 walls.append(GameObject(color=(255,255,0),dimensions=(windowsize[0],100),coords=(0,-99)))   #top, right, bottom, left
 walls.append(GameObject(color=(255,255,0),dimensions=(100,windowsize[1]),coords=(windowsize[0]-1,0)))
@@ -335,7 +344,7 @@ paddles.append(GameObject(color=(0,255,0),dimensions=(15,PADDLE_WIDTH),coords=(w
 rules = GameRules(ball,walls,paddles,0)
 rules.faceOff()
 
-theSplash = Status((0,0),(1320,768),(0,0,0),"splash.png")
+theSplash = Status((0,0),(1320,768),(0,0,0),"splashimage2.jpg")
 theStatus = Status((10,10),(1300,720),(0,0,0))
 
 theStatusContent = {
